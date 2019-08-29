@@ -1,8 +1,8 @@
 <template>
   <div id="app">
     <Header />
-    <Keno @user-pick='getData' :stopGame='stopPlay' v-if="gamePlay"/>
-    <Score :userPick='userPick' @resetGame="stopGame" v-else/>
+    <Keno @user-pick='getData' v-if="gamePlay"/>
+    <Score :userPick='userPick' @showKeno='stopGame' v-else/>
     <Footer />
   </div>
 </template>
@@ -22,7 +22,6 @@ export default {
     return{
       gamePlay: true,
       userPick: [],
-      stopPlay: false,
     }
   },
   methods:{
@@ -31,8 +30,8 @@ export default {
       this.gamePlay = false
     },
     stopGame(value){
-      this.stopPlay = true
-      console.log(value)
+      this.gamePlay = value
+      this.userPick.length = 0
     }
   }
 }

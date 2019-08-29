@@ -43,24 +43,12 @@ export default {
       userPick: []
     }
   },
-  props: {
-    stopGame: {
-      type: Boolean
-    }
-  },
   methods:{
     addUserPick(no){
       if(!this.userPick.includes(no)){
         if(this.userPick.length<10){
           this.userPick.push(no)
-          this.$refs.number[no-1].classList.add('clicked')
-          // console.log(this.$refs.pickedNo[this.userPick.length-1])
-          if(this.$refs.pickedNo){
-            // setTimeout(() => {
-            //   this.$refs.pickedNo[this.userPick.length-2].classList.remove('ball')
-            //   this.$refs.pickedNo[this.userPick.length-2].classList.add('ball-no-bounce')
-            // }, 1500);
-          }          
+          this.$refs.number[no-1].classList.add('clicked')     
         }else{
           Swal.fire({
             type: 'info',
@@ -73,18 +61,33 @@ export default {
       }
     },
     resetGame(){
-      for(let no of this.userPick){
-        this.$refs.number[no-1].classList.remove('clicked')
+      if(this.$refs.number){
+        for(let no of this.userPick){
+          this.$refs.number[no-1].classList.remove('clicked')
+        }
+        this.userPick=[];
       }
-      this.userPick=[];
     },
     playGame(){
-      this.$emit('user-pick', this.userPick)
-    }
+      if(this.userPick.length!=10){
+        Swal.fire({
+          type: 'info',
+          title: 'Select 10 numbers to play'
+        })
+      }else{
+        this.$emit('user-pick', this.userPick)
+      }
+    },
+  },
+  created(){
+    Bus.$on('resetGame', (command) => {
+      if(command=='stop-game'){
+        this.resetGame()
+      }
+    })     
   },
   mounted(){
     this.numbers = Array.from(Array(80), (_,x) => x + 1);
-    console.log(this.stopGame)
   },
   watch:{
     stopGame(){
@@ -131,13 +134,6 @@ export default {
   text-align: center;
 }
 
-.ball-no-bounce{
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  background-color: yellow;
-  text-align: center;
-}
 @keyframes bounce {
   from { transform: translate3d(0, 0, 0);     }
   to   { transform: translate3d(0, 200px, 0); }

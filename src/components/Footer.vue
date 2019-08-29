@@ -3,28 +3,28 @@
     <div class="container">
       <div class="row">
         <div class="col l6 s12">
-          <h5 class="white-text">Company Bio</h5>
-          <p class="grey-text text-lighten-4">We are a team of college students working on this project like it's our full time job. Any amount would help support and continue development on this project and is greatly appreciated.</p>
-
+          <h5 class="white-text">About Keno</h5>
+          <p class="grey-text text-lighten-4" align="justify">Keno /kiːnoʊ/ is a lottery-like gambling game often played at modern casinos, and also offered as a game by some lotteries.</p>
+          <p class="grey-text text-lighten-4" align="justify">Players wager by choosing numbers ranging from 1 through (usually) 80. After all players make their wagers, 20 numbers (some variants draw fewer numbers) are drawn at random, either with a ball machine similar to ones used for lotteries and bingo, or with a random number generator.</p>
 
         </div>
         <div class="col l3 s12">
-          <h5 class="white-text">Settings</h5>
+          <!-- <h5 class="white-text">Settings</h5>
           <ul>
             <li><a class="white-text" href="#!">Link 1</a></li>
             <li><a class="white-text" href="#!">Link 2</a></li>
             <li><a class="white-text" href="#!">Link 3</a></li>
             <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
+          </ul> -->
         </div>
         <div class="col l3 s12">
-          <h5 class="white-text">Connect</h5>
+          <!-- <h5 class="white-text">Connect</h5>
           <ul>
             <li><a class="white-text" href="#!">Link 1</a></li>
             <li><a class="white-text" href="#!">Link 2</a></li>
             <li><a class="white-text" href="#!">Link 3</a></li>
             <li><a class="white-text" href="#!">Link 4</a></li>
-          </ul>
+          </ul> -->
         </div>
       </div>
     </div>

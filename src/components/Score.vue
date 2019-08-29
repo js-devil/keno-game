@@ -9,13 +9,19 @@
                     <div v-for="pick in userPick" :key="pick">
                         <div class="col s1 ball">
                             <span class="ball-no" v-if="pick<10">{{pick}}</span>
-                            <span class="ball-no" style="padding: 0 5px" v-else>{{pick}}</span>
+                            <span class="ball-no" style="padding: 0 4px" v-else>{{pick}}</span>
                         </div>
                     </div>
                 </div>
 
-                <div class="col s12">
-                    {{numbers}}
+                <div class="col s12" style="margin-top: 3%">
+                    <div class="row">
+                        <div class="col s2 balling" v-for="number in numbers" :key="number">
+                            <span class="ball-text" v-if="number>=10">{{number}}</span>
+                            <span class="ball-text" style="padding: 25px 40px" v-else>{{number}}</span>
+                        </div>
+                        <br v-if="numbers.length==5" />
+                    </div>
                 </div>
 
                 <div class="col s12 btn-container">
@@ -36,11 +42,40 @@ export default {
     },
     methods: {
         resetGame(){
-            this.$emit('resetGame', true)
+            this.$emit('showKeno', true);
+            Bus.$emit('resetGame', 'stop-game');
+        },
+        getNumbers(){
+            let no = Math.ceil(Math.random() * 80)
+            if(this.numbers.includes(no)){
+                this.getNumbers()
+            }
+
+            for(let n of this.numbers){
+                if(n!=no){
+                    return no
+                }else{
+                    this.getNumbers()
+                }
+            }
         },
         generateRandomNumbers(){
             if(this.numbers.length < 10){
-                this.numbers.push(Math.ceil(Math.random() * 80))
+                let no = Math.ceil(Math.random() * 80)
+
+                if(this.numbers.length && this.numbers.includes(no)){
+                    no = this.getNumbers()
+                }
+                this.numbers.push(no)
+
+                const element =  document.querySelectorAll('.balling')
+                
+                if(element.length){
+                    console.log(element)
+                    
+                    // element.length%2==0 ? element[element.length - 1].classList.add('animated', 'bounceInLeft') : 
+                    // element[element.length - 1].classList.add('animated', 'bounceInRight')                    
+                }
             }
         }
     },
@@ -56,14 +91,12 @@ export default {
         numbers(){
             if(this.numbers.length==10){
                 let count = 0;
-            
+
                 for(let n of this.userPick){
-                    if(this.numbers.includes(n)){
-                        count++;
-                    }
+                    this.numbers.includes(n) ? count++ : null
                 }
 
-                let title = count > 1 ? `You got ${count} correct numbers` : `You got ${count} correct number`
+                let title = count > 1 ? `You got ${count} correct numbers` : count == 0 ? `You got no correct numbers` :  `You got ${count} correct number`
 
                 Swal.fire({
                     type: 'info',
@@ -98,12 +131,61 @@ export default {
     margin-right: 2%;
 }
 
+.balling{
+    height: 130px;
+    border-radius: 50%;
+    background-color: yellow;
+    margin-right: 3%;
+    /* animation: bounce 0.8s; */
+    animation-direction: alternate;
+    animation-timing-function: cubic-bezier(.5,0.05,1,.5);
+    animation-iteration-count: infinite;
+    text-align: center;
+}
+
+@keyframes bounce {
+  from { transform: translate3d(0, 0, 0);     }
+  to   { transform: translate3d(0, 200px, 0); }
+}
+
+/* Prefix Support */
+ball {
+  -webkit-animation-name: bounce;
+  -webkit-animation-duration: 0.5s;
+  -webkit-animation-direction: alternate;
+  -webkit-animation-timing-function: cubic-bezier(.5,0.05,1,.5);
+  -webkit-animation-iteration-count: infinite;
+}
+
+@-webkit-keyframes bounce {
+  from { -webkit-transform: translate3d(0, 0, 0); transform: translate3d(0, 0, 0); }
+  to   { -webkit-transform: translate3d(0, 200px, 0); transform: translate3d(0, 200px, 0); }
+}
+
+.balling:nth-child(5){
+    margin-bottom: 3%;    
+}
+
+.green-bg{
+    background: green;
+}
+
+.ball-text{
+    font-size: 35px;
+    position: relative;
+    top: 40px;
+    font-weight: 600;
+    background: #fff;
+    border-radius: 50%;
+    padding: 25px 35px;
+}
+
 .ball-no{
     font-size: 20px;
     font-weight: 600;
     background: #fff;
     border-radius: 50%;
-    padding: 0 10px;
+    padding: 0 9px;
     position: relative;
     left: -6px;
     top: 3px;

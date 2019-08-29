@@ -4,6 +4,7 @@ import App from './App.vue'
 Vue.config.productionTip = false
 
 window.Swal = require('sweetalert2')
+window.Bus = new Vue({});
 // window.Toast = Swal.mixin({
 //   toast: true,
 //   position: 'top-end',
